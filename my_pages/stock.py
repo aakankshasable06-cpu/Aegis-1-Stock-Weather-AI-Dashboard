@@ -2,7 +2,6 @@ import streamlit as st
 import stockapi as sa
 from datetime import datetime
 
-
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(
     page_title="Stock Intelligence",
@@ -10,11 +9,10 @@ st.set_page_config(
     layout="wide"
 )
 
-
 # ---------------- STOCK PAGE ----------------
 def stock_page():
 
-    # ---------------- HERO HEADER (TRADING STYLE) ----------------
+    # ---------------- HERO HEADER ----------------
     st.markdown("""
     <div style="
         background: linear-gradient(135deg,#00FFE0,#00BFFF);
@@ -24,7 +22,7 @@ def stock_page():
         color:black;
         margin-bottom:25px;
     ">
-        <h1> ◼ Stock Intelligence </h1>
+        <h1>◼ Stock Intelligence</h1>
         <p>Real-time market data • Company insights • Financial analytics</p>
     </div>
     """, unsafe_allow_html=True)
@@ -49,27 +47,26 @@ def stock_page():
             st.stop()
 
         try:
-         with st.spinner("Loading ..."):
-            (
-                name,
-                symbol,
-                industry,
-                weburl,
-                current,
-                high,
-                low,
-                open_price,
-                prev_close,
-                status,
-                percentage_change
-            ) = sa.fetch(company)
+            with st.spinner("Loading stock data..."):
 
-            # ---------------- LAYOUT: LEFT / RIGHT ----------------
+                (
+                    name,
+                    symbol,
+                    industry,
+                    weburl,
+                    current,
+                    high,
+                    low,
+                    open_price,
+                    prev_close,
+                    status,
+                    percentage_change
+                ) = sa.fetch(company)
+
+            # ---------------- LAYOUT ----------------
             left, right = st.columns([1.2, 2])
 
-            # =====================================================
-            # LEFT SIDE → COMPANY INFO
-            # =====================================================
+            # ================= LEFT SIDE =================
             with left:
 
                 st.markdown("## 🏢 Company Info")
@@ -87,9 +84,6 @@ def stock_page():
                 </div>
                 """, unsafe_allow_html=True)
 
-                st.write("")
-
-                # Website
                 st.markdown("## 🌐 Website")
 
                 st.link_button(
@@ -98,9 +92,6 @@ def stock_page():
                     use_container_width=True
                 )
 
-                st.write("")
-
-                # Quick Status
                 st.markdown("## 📊 Status")
 
                 if percentage_change > 0:
@@ -110,9 +101,7 @@ def stock_page():
                 else:
                     st.warning("➖ Neutral Movement")
 
-            # =====================================================
-            # RIGHT SIDE → MARKET DATA
-            # =====================================================
+            # ================= RIGHT SIDE =================
             with right:
 
                 st.markdown("## 💹 Live Market Data")
@@ -135,9 +124,6 @@ def stock_page():
                 </div>
                 """, unsafe_allow_html=True)
 
-                st.write("")
-
-                # Metrics Grid
                 c1, c2, c3, c4 = st.columns(4)
 
                 c1.metric("Open", f"${open_price}")
@@ -147,7 +133,6 @@ def stock_page():
 
                 st.divider()
 
-                # Summary Panel
                 st.markdown("## 🧾 Full Summary")
 
                 st.info(f"""
@@ -165,4 +150,3 @@ def stock_page():
 
         except Exception as e:
             st.error(f"Error: {e}")
-            
