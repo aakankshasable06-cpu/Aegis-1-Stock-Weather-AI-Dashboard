@@ -6,7 +6,7 @@ from datetime import datetime
 load_dotenv()
 
 api_key = os.getenv("OPENWEATHER_API_KEY")
-city =input("Enter the city name:")
+
 def fetch(city):
     
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
@@ -49,6 +49,7 @@ def fetch(city):
 
 def main():
     try:
+        city =input("Enter the city name:")
         city_name,country,temp,feels_like,humidity,pressure,sunrise,sunset,wind_speed,visibility,weather_condition = fetch(city)
         print(f"City: {city_name}")
         print(f"Country: {country}")
