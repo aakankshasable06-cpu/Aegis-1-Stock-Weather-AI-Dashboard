@@ -15,7 +15,8 @@ def fetch(company):
     "token": API_KEY
      }
     data0 = requests.get(url3, params=params).json()
-    if data0["count"] == 0:
+    if not data0.get("result"):
+
         raise Exception("Company not found")
 
     symbol =(data0["result"][0]["symbol"])
@@ -29,7 +30,7 @@ def fetch(company):
         "token" :API_KEY
         }
     data = requests.get(url,params= para).json()
-    respo2 =requests.get(url2,para2)
+    respo2 =requests.get(url2,params=para2)
     data2 =respo2.json ()
     
     
